@@ -1,0 +1,19 @@
+# syntax=docker/dockerfile:1
+FROM ubuntu:latest
+WORKDIR /home
+COPY veeamapi veeamapi
+WORKDIR /home/veeamapi
+RUN apt update && apt install -y wget python3 pip
+RUN pip install requests
+RUN wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.0.0-amd64.deb
+RUN dpkg -i filebeat-8.0.0-amd64.deb
+RUN rm -f /etc/filebeat/filebeat.yml
+WORKDIR /etc/filebeat/
+COPY filebeat.yml filebeat.save
+COPY filebeat.yml filebeat.yml
+RUN chmod go-w filebeat.yml
+RUN touch /var/log/veeam.log && chmod 777 /var/log/veeam.log
+WORKDIR /home/veeamapi
+COPY run.sh run.sh
+RUN chmod +x run.sh
+CMD ["/home/veeamapi/run.sh"]
