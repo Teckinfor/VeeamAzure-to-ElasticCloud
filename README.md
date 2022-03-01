@@ -1,6 +1,10 @@
 # VeeamAzure-to-ElasticCloud
 Application to retrieve logs from Veeam Backup for Microsoft Azure to Elastic Cloud 
 
+## Prerequisites
+
+`pip install requests`
+
 ## Configuration
 First of all, you need to have Filebeat installed/downloaded.
 Then replace the filebeat.yml with the one in the filebeat folder of the package.
